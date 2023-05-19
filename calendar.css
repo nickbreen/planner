@@ -1,0 +1,73 @@
+year {
+    border: 1px solid blue;
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+year:before {
+    content: attr(year);
+}
+
+month:before {
+    content: attr(month);
+    position: relative;
+    top: -2em;
+    line-height: 2em;
+}
+
+month {
+    border: 1px solid green;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    padding-top: 2em
+}
+
+day:before {
+    content: attr(day);
+}
+
+day {
+    display: block;
+    border: 1px solid red;
+    height: 3em;
+}
+
+day[day-of-week="Mon"]
+{
+    grid-column: 1;
+}
+
+day[day-of-week="Tue"]
+{
+    grid-column: 2;
+    background: #eee;
+}
+
+day[day-of-week="Wed"]
+{
+    grid-column: 3;
+}
+
+day[day-of-week="Thu"]
+{
+    grid-column: 4;
+    background: #eee;
+}
+
+day[day-of-week="Fri"]
+{
+    grid-column: 5;
+}
+
+day[day-of-week="Sat"]
+{
+    grid-column: 6;
+    background: #eef;
+}
+day[day-of-week="Sun"]
+{
+    grid-column: 7;
+    background: #eef;
+}
