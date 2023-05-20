@@ -37,38 +37,42 @@ function* days()
 </script>
 
 <template>
-  <header v-text="month.toLocaleString(locale, {month: 'long'})"/>
-  <article class="month" >
-    <section class="day-of-week" v-for="day in daysOfWeek" v-text="day"/>
-    <planner-day v-for="day in days()"
-                  :class="`day-of-week-${(1+dayOfWeekLookup(day))}`"
-                  :now="now" :day="day" :locale="locale" :daysOfWeek="daysOfWeek"/>
-  </article>
+  <div>
+    <header v-text="month.toLocaleString(locale, {month: 'long'})"/>
+    <article>
+      <section class="day-of-week" v-for="day in daysOfWeek" v-text="day"/>
+      <planner-day v-for="day in days()"
+                   :class="`day-of-week-${(1+dayOfWeekLookup(day))}`"
+                   :now="now" :day="day" :locale="locale" :daysOfWeek="daysOfWeek"/>
+    </article>
+  </div>
 </template>
 
 <style scoped>
+div {
+  break-before: avoid;
+  break-after: avoid;
+  break-inside: avoid;
+}
+
 header {
-  line-height: calc(6 * 12pt);
-  font-size: calc(3 * 12pt);
+  line-height: 2em;
+  font-size: 3em;
   font-weight: normal;
   text-align: center;
 }
 
-.month {
+article {
   display: grid;
   grid-template-columns: repeat(7, 1fr);
-  grid-template-rows: calc(2 * 12pt);
-  grid-auto-rows: calc(6 * 12pt);
-  grid-gap: 3pt;
+  grid-template-rows: 2em repeat(6, 5em);
+  grid-gap: 0.25em;
   background: bisque;
-  padding: 3pt;
-  break-before: avoid-page;
-  break-inside: avoid;
-  page-break-after: always;
+  padding: 0.25em;
 }
 
 .day-of-week {
-  padding: 3pt;
+  padding: 0.25em;
   text-align: center;
   background: #fff;
 }

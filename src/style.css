@@ -8,10 +8,14 @@
     @top-center {
       content: string(year);
     }
-    size: A4 landscape;
+    size: A4;
   }
   body
   {
-    column-count: 2;
+    columns: 2 auto;
+    font-size: 6pt;
+  }
+  .today {
+    border: none !important;
   }
 }

@@ -17,10 +17,10 @@ const today = props.day.getMonth() === props.now.getMonth() && props.day.getDate
 .day
 {
   background: #fff;
-  padding: 3pt;
+  padding: 0.25em;
 }
 .today
 {
-  border: 1pt solid tomato;
+  border: 0.25em solid tomato;
 }
 </style>
