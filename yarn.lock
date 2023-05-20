@@ -469,16 +469,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"calendar@workspace:.":
-  version: 0.0.0-use.local
-  resolution: "calendar@workspace:."
-  dependencies:
-    "@vitejs/plugin-vue": ^4.1.0
-    vite: ^4.3.2
-    vue: ^3.2.47
-  languageName: unknown
-  linkType: soft
-
 "chownr@npm:^2.0.0":
   version: 2.0.0
   resolution: "chownr@npm:2.0.0"
@@ -1124,6 +1114,16 @@ __metadata:
   checksum: a2e8092dd86c8396bdba9f2b5481032848525b3dc295ce9b57896f931e63fc16f79805144321f72976383fc249584672a75cc18d6777c6b757603f372f745981
   languageName: node
   linkType: hard
+
+"planner@workspace:.":
+  version: 0.0.0-use.local
+  resolution: "planner@workspace:."
+  dependencies:
+    "@vitejs/plugin-vue": ^4.1.0
+    vite: ^4.3.2
+    vue: ^3.2.47
+  languageName: unknown
+  linkType: soft
 
 "postcss@npm:^8.1.10, postcss@npm:^8.4.23":
   version: 8.4.23

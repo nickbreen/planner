@@ -1,5 +1,8 @@
-import { createApp } from 'vue'
+import {createApp} from 'vue'
 import './style.css'
-import App from './App.vue'
+import PlannerYear from './components/PlannerYear.vue'
 
-createApp(App).mount('#app')
+createApp(PlannerYear, {
+    now: location.hash ? new Date(...location.hash.slice(1).split(/\D/)) : new Date,
+    locale: window.navigator.language
+}).mount('#app')
