@@ -1,21 +1,22 @@
-:root {
-  font-family: system-ui, sans-serif;
-  color-scheme: normal;
+:root
+{
+    font-family: system-ui, sans-serif;
+    color-scheme: normal;
 }
 
-@media print {
-  @page {
-    @top-center {
-      content: string(year);
+@media print
+{
+    @page
+    {
+        @top-center
+        {
+            content: string(year);
+        }
+        size: A4;
     }
-    size: A4;
-  }
-  body
-  {
-    columns: 2 auto;
-    font-size: 6pt;
-  }
-  .today {
-    border: none !important;
-  }
+
+    body
+    {
+        font-size: 6pt;
+    }
 }
