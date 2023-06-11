@@ -6,12 +6,7 @@ const props = defineProps({
 })
 
 const weekInfo = props.locale.getWeekInfo();
-const weekendLookup = weekInfo.weekend.reduce((acc, day) =>
-{
-    acc[day] = true;
-    return acc
-}, {})
-
+const weekendLookup = new Set(weekInfo.weekend)
 function* weekDays()
 {
     const day = new Date(2023, 4) // a month with Monday as the 1st
@@ -27,7 +22,7 @@ function* weekDays()
             narrow: day.toLocaleString(props.locale, {weekday: 'narrow'}),
             short: day.toLocaleString(props.locale, {weekday: 'short'}),
             long: day.toLocaleString(props.locale, {weekday: 'long'}),
-            isWeekend: weekendLookup[day.getWeekDay()]
+            isWeekend: weekendLookup.has(day.getWeekDay())
         }
     }
 }
@@ -43,7 +38,7 @@ function* days()
         yield {
             title: day.toString(),
             text: day.toLocaleString(props.locale, {day: 'numeric'}),
-            isWeekend: weekendLookup[day.getWeekDay()],
+            isWeekend: weekendLookup.has(day.getWeekDay()),
             isToday: day.getMonth() === props.now.getMonth() && day.getDate() === props.now.getDate() || undefined,
             weekDay: day.getWeekDay()
         }
@@ -54,9 +49,9 @@ function* days()
 <template>
     <div :data-month="month.toLocaleString(locale, {month: 'long'})" :data-year="month.toLocaleString(locale, {year: 'numeric'})">
         <ol :data-week-first-day="weekInfo.firstDay">
-            <li v-for="{isWeekend, long, short} in weekDays()" :data-weekend="isWeekend" :title="long" v-text="short"/>
+            <li v-for="{isWeekend, long, short} in weekDays()" :data-weekend="isWeekend || undefined" :title="long" v-text="short"/>
             <li v-for="{title, text, isWeekend, isToday, weekDay} in days()" :data-today="isToday" :data-week-day="weekDay"
-                :data-weekend="isWeekend" :title="title" v-text="text"/>
+                :data-weekend="isWeekend || undefined" :title="title" v-text="text"/>
         </ol>
     </div>
 </template>
