@@ -20,7 +20,7 @@ function* weekDays()
     // for (let i = 0; i < 8 - weekInfo.firstDay; i++) arr.splice(0, 0, arr.pop());
     // But why not just use a literal array and slice out the week we want?
     const weekDayOrder = [0, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6].slice(weekInfo.firstDay, weekInfo.firstDay + 7)
-    for (var d in weekDayOrder)
+    for (var d of weekDayOrder)
     {
         day.setDate(d)
         yield {
@@ -41,6 +41,7 @@ function* days()
         day.setDate(day.getDate() + 1))
     {
         yield {
+            title: day.toString(),
             text: day.toLocaleString(props.locale, {day: 'numeric'}),
             isWeekend: weekendLookup[day.getWeekDay()],
             isToday: day.getMonth() === props.now.getMonth() && day.getDate() === props.now.getDate() || undefined,
@@ -51,11 +52,11 @@ function* days()
 </script>
 
 <template>
-    <div :data-month="month.toLocaleString(locale, {month: 'long'})">
+    <div :data-month="month.toLocaleString(locale, {month: 'long'})" :data-year="month.toLocaleString(locale, {year: 'numeric'})">
         <ol :data-week-first-day="weekInfo.firstDay">
             <li v-for="{isWeekend, long, short} in weekDays()" :data-weekend="isWeekend" :title="long" v-text="short"/>
-            <li v-for="{text, isWeekend, isToday, weekDay} in days()" :data-today="isToday" :data-week-day="weekDay"
-                :data-weekend="isWeekend" v-text="text"/>
+            <li v-for="{title, text, isWeekend, isToday, weekDay} in days()" :data-today="isToday" :data-week-day="weekDay"
+                :data-weekend="isWeekend" :title="title" v-text="text"/>
         </ol>
     </div>
 </template>
@@ -68,7 +69,7 @@ function* days()
 
 [data-month]::before
 {
-    content: attr(data-month);
+    content: attr(data-month) "\a0" attr(data-year);
     display: block;
     line-height: 2em;
     font-size: 3em;
