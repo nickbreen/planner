@@ -20,7 +20,7 @@ function* weekDays()
     // for (let i = 0; i < 8 - weekInfo.firstDay; i++) arr.splice(0, 0, arr.pop());
     // But why not just use a literal array and slice out the week we want?
     const weekDayOrder = [0, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6].slice(weekInfo.firstDay, weekInfo.firstDay + 7)
-    for (d in weekDayOrder)
+    for (var d in weekDayOrder)
     {
         day.setDate(d)
         yield {
