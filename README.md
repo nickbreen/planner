@@ -1,3 +1,3 @@
-A simple calendar planner.
+A simple _printable_ calendar planner.
 
 
