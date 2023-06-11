@@ -1,8 +1,4 @@
 <script setup>
-import {useRouter} from 'vue-router'
-
-const router = useRouter();
-
 const props = defineProps({
     locale: Intl.Locale,
     now: Date,
@@ -26,7 +22,7 @@ function* weekDays()
             narrow: day.toLocaleString(props.locale, {weekday: 'narrow'}),
             short: day.toLocaleString(props.locale, {weekday: 'short'}),
             long: day.toLocaleString(props.locale, {weekday: 'long'}),
-            isWeekend: weekendLookup.has(day.getWeekDay())
+            isWeekend: weekendLookup.has(day.getWeekDay()) || undefined
         }
     }
 }
@@ -42,27 +38,20 @@ function* days()
         yield {
             title: day.toString(),
             text: day.toLocaleString(props.locale, {day: 'numeric'}),
-            isWeekend: weekendLookup.has(day.getWeekDay()),
+            isWeekend: weekendLookup.has(day.getWeekDay()) || undefined,
             isToday: day.getMonth() === props.now.getMonth() && day.getDate() === props.now.getDate() || undefined,
             weekDay: day.getWeekDay()
         }
     }
 }
-
-function goToMonth()
-{
-    const year = props.month.toLocaleString(props.locale, {year: 'numeric'});
-    const month = props.month.toLocaleString(props.locale, {month: '2-digit'});
-    router.push({path: `/${year}/${month}`})
-}
 </script>
 
 <template>
-    <div @click.self="goToMonth" :data-month="month.toLocaleString(locale, {month: 'long'})" :data-year="month.toLocaleString(locale, {year: 'numeric'})">
+    <div :data-month="month.toLocaleString(locale, {month: 'long'})" :data-year="month.toLocaleString(locale, {year: 'numeric'})">
         <ol :data-week-first-day="weekInfo.firstDay">
-            <li v-for="{isWeekend, long, short} in weekDays()" :data-weekend="isWeekend || undefined" :title="long" v-text="short"/>
+            <li v-for="{isWeekend, long, short} in weekDays()" :data-weekend="isWeekend" :title="long" v-text="short"/>
             <li v-for="{title, text, isWeekend, isToday, weekDay} in days()" :data-today="isToday" :data-week-day="weekDay"
-                :data-weekend="isWeekend || undefined" :title="title" v-text="text"/>
+                :data-weekend="isWeekend" :title="title" v-text="text"/>
         </ol>
     </div>
 </template>
