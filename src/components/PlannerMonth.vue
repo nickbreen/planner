@@ -6,7 +6,7 @@ const props = defineProps({
 })
 
 const weekInfo = props.locale.getWeekInfo();
-const weekendLookup = new Set(weekInfo.weekend)
+const weekend = new Set(weekInfo.weekend)
 function* weekDays()
 {
     const day = new Date(2023, 4) // a month with Monday as the 1st
@@ -22,7 +22,7 @@ function* weekDays()
             narrow: day.toLocaleString(props.locale, {weekday: 'narrow'}),
             short: day.toLocaleString(props.locale, {weekday: 'short'}),
             long: day.toLocaleString(props.locale, {weekday: 'long'}),
-            isWeekend: weekendLookup.has(day.getWeekDay()) || undefined
+            isWeekend: weekend.has(day.getWeekDay()) || undefined
         }
     }
 }
@@ -36,22 +36,25 @@ function* days()
         day.setDate(day.getDate() + 1))
     {
         yield {
-            title: day.toString(),
             text: day.toLocaleString(props.locale, {day: 'numeric'}),
-            isWeekend: weekendLookup.has(day.getWeekDay()) || undefined,
+            isWeekend: weekend.has(day.getWeekDay()) || undefined,
             isToday: day.getMonth() === props.now.getMonth() && day.getDate() === props.now.getDate() || undefined,
             weekDay: day.getWeekDay()
         }
     }
 }
+const data = {
+    month: props.month.toLocaleString(props.locale, {month: 'long'}),
+    year: props.month.toLocaleString(props.locale, {year: 'numeric'}),
+}
 </script>
 
 <template>
-    <div :data-month="month.toLocaleString(locale, {month: 'long'})" :data-year="month.toLocaleString(locale, {year: 'numeric'})">
+    <div :data-month="data.month" :data-year="data.year">
         <ol :data-week-first-day="weekInfo.firstDay">
             <li v-for="{isWeekend, long, short} in weekDays()" :data-weekend="isWeekend" :title="long" v-text="short"/>
-            <li v-for="{title, text, isWeekend, isToday, weekDay} in days()" :data-today="isToday" :data-week-day="weekDay"
-                :data-weekend="isWeekend" :title="title" v-text="text"/>
+            <li v-for="{text, isWeekend, isToday, weekDay} in days()" :data-today="isToday" :data-week-day="weekDay"
+                :data-weekend="isWeekend" v-text="text"/>
         </ol>
     </div>
 </template>

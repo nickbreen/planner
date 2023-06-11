@@ -8,12 +8,18 @@
 {
     @page
     {
-        size: A4 portrait;
+        size: auto;
     }
 
     body
     {
         font-size: 6pt;
         columns: 2
+    }
+
+    body.month
+    {
+        font-size: initial;
+        columns: initial;
     }
 }
