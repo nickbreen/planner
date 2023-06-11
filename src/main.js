@@ -2,6 +2,7 @@ import {createApp, h, resolveComponent} from 'vue'
 import {createRouter, createWebHashHistory} from 'vue-router'
 import './style.css'
 import PlannerYear from './components/PlannerYear.vue'
+import PlannerMonth from './components/PlannerMonth.vue'
 
 Date.prototype.getWeekDay = function ()
 {
@@ -17,9 +18,12 @@ if (!Intl.Locale.prototype.getWeekInfo)
     Intl.Locale.prototype.getWeekInfo = ()=> (locale.weekInfo || {firstDay: 7, weekend: [6, 7], minimalDays: 1})
 }
 
+const now = new Date;
+
 const routes = [
-    {path: '/', component: PlannerYear, props: {locale, now: new Date}},
-    {path: '/:date', component: PlannerYear, props: route => ({locale, now: new Date(Date.parse(route.params.date))})},
+    {path: '/', component: PlannerYear, props: {locale, now, year: now}},
+    {path: '/:year', component: PlannerYear, props: route => ({locale, now, year: new Date(Date.parse(route.params.date))})},
+    {path: '/:year/:month', component: PlannerMonth, props: route => ({locale, now, month: new Date(route.params.year, route.params.month-1)})},
 ]
 
 const router = createRouter({routes, history: createWebHashHistory()})

@@ -1,4 +1,8 @@
 <script setup>
+import {useRouter} from 'vue-router'
+
+const router = useRouter();
+
 const props = defineProps({
     locale: Intl.Locale,
     now: Date,
@@ -44,10 +48,17 @@ function* days()
         }
     }
 }
+
+function goToMonth()
+{
+    const year = props.month.toLocaleString(props.locale, {year: 'numeric'});
+    const month = props.month.toLocaleString(props.locale, {month: '2-digit'});
+    router.push({path: `/${year}/${month}`})
+}
 </script>
 
 <template>
-    <div :data-month="month.toLocaleString(locale, {month: 'long'})" :data-year="month.toLocaleString(locale, {year: 'numeric'})">
+    <div @click.self="goToMonth" :data-month="month.toLocaleString(locale, {month: 'long'})" :data-year="month.toLocaleString(locale, {year: 'numeric'})">
         <ol :data-week-first-day="weekInfo.firstDay">
             <li v-for="{isWeekend, long, short} in weekDays()" :data-weekend="isWeekend || undefined" :title="long" v-text="short"/>
             <li v-for="{title, text, isWeekend, isToday, weekDay} in days()" :data-today="isToday" :data-week-day="weekDay"
