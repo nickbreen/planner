@@ -12,19 +12,25 @@ const weekendLookup = weekInfo.weekend.reduce((acc, day) =>
     return acc
 }, {})
 
-// // Stolen from https://css-tricks.com/making-calendars-with-accessibility-and-internationalization-in-mind/
-// const arr = [1, 2, 3, 4, 5, 6, 7]
-// for (let i = 0; i < 8 - weekInfo.firstDay; i++) arr.splice(0, 0, arr.pop());
-const weekDayOrder = [0, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6].slice(weekInfo.firstDay, weekInfo.firstDay + 7)
-
-const daysOfWeek = weekDayOrder
-    .map(i => new Date(2023, 4, i)) // a month with Monday as the 1st
-    .map(d => ({
-        narrow: d.toLocaleString(props.locale, {weekday: 'narrow'}),
-        short: d.toLocaleString(props.locale, {weekday: 'short'}),
-        long: d.toLocaleString(props.locale, {weekday: 'long'}),
-        isWeekend: weekendLookup[d.getWeekDay()]
-    }));
+function* weekDays()
+{
+    const day = new Date(2023, 4) // a month with Monday as the 1st
+    // Stolen from https://css-tricks.com/making-calendars-with-accessibility-and-internationalization-in-mind/
+    // const arr = [1, 2, 3, 4, 5, 6, 7]
+    // for (let i = 0; i < 8 - weekInfo.firstDay; i++) arr.splice(0, 0, arr.pop());
+    // But why not just use a literal array and slice out the week we want?
+    const weekDayOrder = [0, 1, 2, 3, 4, 5, 6, 7, 1, 2, 3, 4, 5, 6].slice(weekInfo.firstDay, weekInfo.firstDay + 7)
+    for (d in weekDayOrder)
+    {
+        day.setDate(d)
+        yield {
+            narrow: day.toLocaleString(props.locale, {weekday: 'narrow'}),
+            short: day.toLocaleString(props.locale, {weekday: 'short'}),
+            long: day.toLocaleString(props.locale, {weekday: 'long'}),
+            isWeekend: weekendLookup[day.getWeekDay()]
+        }
+    }
+}
 
 function* days()
 {
@@ -46,9 +52,8 @@ function* days()
 
 <template>
     <div :data-month="month.toLocaleString(locale, {month: 'long'})">
-        <header v-text="month.toLocaleString(locale, {month: 'long'})"/>
         <ol :data-week-first-day="weekInfo.firstDay">
-            <li v-for="{isWeekend, long, short} in daysOfWeek" :data-weekend="isWeekend" :title="long" v-text="short"/>
+            <li v-for="{isWeekend, long, short} in weekDays()" :data-weekend="isWeekend" :title="long" v-text="short"/>
             <li v-for="{text, isWeekend, isToday, weekDay} in days()" :data-today="isToday" :data-week-day="weekDay"
                 :data-weekend="isWeekend" v-text="text"/>
         </ol>
@@ -56,13 +61,15 @@ function* days()
 </template>
 
 <style scoped>
-div
+[data-month]
 {
     break-inside: avoid;
 }
 
-header
+[data-month]::before
 {
+    content: attr(data-month);
+    display: block;
     line-height: 2em;
     font-size: 3em;
     font-weight: normal;

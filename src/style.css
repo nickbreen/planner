@@ -8,15 +8,12 @@
 {
     @page
     {
-        @top-center
-        {
-            content: string(year);
-        }
-        size: A4;
+        size: A4 portrait;
     }
 
     body
     {
         font-size: 6pt;
+        columns: 2
     }
 }
