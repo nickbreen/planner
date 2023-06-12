@@ -1,7 +1,6 @@
 import {createApp} from 'vue'
 import './style.css'
 import PlannerYear from './components/PlannerYear.vue'
-import PlannerMonth from "./components/PlannerMonth.vue";
 
 Date.prototype.getWeekDay = function ()
 {

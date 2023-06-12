@@ -5,7 +5,7 @@ const props = defineProps({
 })
 
 const weekInfo = props.locale.getWeekInfo();
-const weekend = new Set(weekInfo.weekend)
+const weekendDays = new Set(weekInfo.weekend)
 
 function* weekDays()
 {
@@ -22,7 +22,7 @@ function* weekDays()
             narrow: day.toLocaleString(props.locale, {weekday: 'narrow'}),
             text: day.toLocaleString(props.locale, {weekday: 'short'}),
             title: day.toLocaleString(props.locale, {weekday: 'long'}),
-            weekend: weekend.has(day.getWeekDay()) || undefined
+            weekend: weekendDays.has(day.getWeekDay()) || undefined
         }
     }
 }
@@ -37,7 +37,7 @@ function* days()
     {
         yield {
             text: day.toLocaleString(props.locale, {day: 'numeric'}),
-            weekend: weekend.has(day.getWeekDay()) || undefined,
+            weekend: weekendDays.has(day.getWeekDay()) || undefined,
             weekDay: day.getWeekDay()
         }
     }
@@ -47,8 +47,10 @@ function* days()
 <template>
     <div :data-month="month.toLocaleDateString(locale, {year: 'numeric', month: 'long'})">
         <ol :data-week-first-day="weekInfo.firstDay">
-            <li v-for="{text, weekend, title} in weekDays()" :title="title" :data-weekend="weekend" v-text="text"/>
-            <li v-for="{text, weekend, weekDay} in days()" :data-week-day="weekDay" :data-weekend="weekend" v-text="text"/>
+            <li v-for="({text, weekend, title}, i) in weekDays()" :key="i" :title="title" :data-weekend="weekend"
+                v-text="text"/>
+            <li v-for="({text, weekend, weekDay}, i) in days()" :key="i" :data-week-day="weekDay"
+                :data-weekend="weekend" v-text="text"/>
         </ol>
     </div>
 </template>

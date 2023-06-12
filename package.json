@@ -7,6 +7,7 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore src",
     "serve": "vite serve --host"
   },
   "dependencies": {
@@ -14,6 +15,48 @@
   },
   "devDependencies": {
     "@vitejs/plugin-vue": "^4.1.0",
-    "vite": "^4.3.2"
+    "eslint": "^8.42.0",
+    "eslint-plugin-vue": "^9.14.1",
+    "vite": "^4.3.2",
+    "vite-plugin-eslint": "^1.8.1"
+  },
+  "eslintConfig": {
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "eslint:recommended",
+      "plugin:vue/vue3-recommended"
+    ],
+    "rules": {
+      "vue/html-closing-bracket-spacing": ["error", {
+        "startTag": "never",
+        "endTag": "never",
+        "selfClosingTag": "never"
+      }],
+      "vue/first-attribute-linebreak": ["error", {
+        "singleline": "beside",
+        "multiline": "beside"
+      }],
+      "vue/html-closing-bracket-newline": ["error", {
+        "singleline": "never",
+        "multiline": "never"
+      }],
+      "vue/html-indent": [
+        "error",
+        4
+      ],
+      "vue/max-attributes-per-line": [
+        "error",
+        {
+          "singleline": {
+            "max": 5
+          },
+          "multiline": {
+            "max": 5
+          }
+        }
+      ]
+    }
   }
 }
