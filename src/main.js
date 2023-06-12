@@ -17,11 +17,6 @@ if (!Intl.Locale.prototype.getWeekInfo)
     Intl.Locale.prototype.getWeekInfo = ()=> (locale.weekInfo || {firstDay: 1, weekend: [6, 7], minimalDays: 1})
 }
 
-const now = new Date;
+const year = new Date;
 
-const params = new URLSearchParams(location.search);
-const component = params.has('month') ? PlannerMonth : PlannerYear
-const props = params.has('month') ? {month: now} : {year: now}
-
-createApp(component, {locale, ...props}).mount('body')
-
+createApp(PlannerYear, {locale, year}).mount('body')
