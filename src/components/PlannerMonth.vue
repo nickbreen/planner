@@ -72,18 +72,17 @@ function* days()
 [data-week-first-day]
 {
     display: grid;
-    grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 2em repeat(6, 6em);
-    grid-gap: 0.2em;
+    grid-template: 2em repeat(6, 6em) / repeat(7, 1fr);
+    grid-gap: 0.25em;
     background: bisque;
-    padding: 0.2em;
+    padding: 0.25em;
     list-style: none;
     margin: 0 auto;
 }
 
 [data-week-first-day] > *
 {
-    padding: 0.2em;
+    padding: 0.25em;
     background: #fff;
 }
 

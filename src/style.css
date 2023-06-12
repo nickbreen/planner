@@ -9,6 +9,7 @@
     @page
     {
         size: auto;
+        margin: auto;
     }
 }
 
@@ -17,7 +18,9 @@
     body
     {
         font-size: 6pt;
-        columns: 2
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-column-gap: 12pt;
     }
 }
 
@@ -26,6 +29,5 @@
     body
     {
         font-size: 12pt;
-        columns: initial;
     }
 }
