@@ -4,22 +4,27 @@
     color-scheme: normal;
 }
 
+@media print and (orientation: portrait)
+{
+    body
+    {
+        font-size: 6pt;
+        columns: 2
+    }
+}
+@media print and (orientation: landscape)
+{
+    body
+    {
+        font-size: 12pt;
+        columns: initial;
+    }
+}
+
 @media print
 {
     @page
     {
         size: auto;
-    }
-
-    body :has(div:nth-child(12))
-    {
-        font-size: 6pt;
-        columns: 2
-    }
-
-    body
-    {
-        font-size: 12pt;
-        columns: initial;
     }
 }
