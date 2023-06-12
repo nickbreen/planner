@@ -11,15 +11,15 @@
         size: auto;
     }
 
-    body
+    body :has(div:nth-child(12))
     {
         font-size: 6pt;
         columns: 2
     }
 
-    body.month
+    body
     {
-        font-size: initial;
+        font-size: 12pt;
         columns: initial;
     }
 }

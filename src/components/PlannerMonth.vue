@@ -1,12 +1,12 @@
 <script setup>
 const props = defineProps({
     locale: Intl.Locale,
-    now: Date,
     month: Date,
 })
 
 const weekInfo = props.locale.getWeekInfo();
 const weekend = new Set(weekInfo.weekend)
+
 function* weekDays()
 {
     const day = new Date(2023, 4) // a month with Monday as the 1st
@@ -20,9 +20,9 @@ function* weekDays()
         day.setDate(d)
         yield {
             narrow: day.toLocaleString(props.locale, {weekday: 'narrow'}),
-            short: day.toLocaleString(props.locale, {weekday: 'short'}),
-            long: day.toLocaleString(props.locale, {weekday: 'long'}),
-            isWeekend: weekend.has(day.getWeekDay()) || undefined
+            text: day.toLocaleString(props.locale, {weekday: 'short'}),
+            title: day.toLocaleString(props.locale, {weekday: 'long'}),
+            weekend: weekend.has(day.getWeekDay()) || undefined
         }
     }
 }
@@ -37,24 +37,18 @@ function* days()
     {
         yield {
             text: day.toLocaleString(props.locale, {day: 'numeric'}),
-            isWeekend: weekend.has(day.getWeekDay()) || undefined,
-            isToday: day.getMonth() === props.now.getMonth() && day.getDate() === props.now.getDate() || undefined,
+            weekend: weekend.has(day.getWeekDay()) || undefined,
             weekDay: day.getWeekDay()
         }
     }
 }
-const data = {
-    month: props.month.toLocaleString(props.locale, {month: 'long'}),
-    year: props.month.toLocaleString(props.locale, {year: 'numeric'}),
-}
 </script>
 
 <template>
-    <div :data-month="data.month" :data-year="data.year">
+    <div :data-month="month.toLocaleDateString(locale, {year: 'numeric', month: 'long'})">
         <ol :data-week-first-day="weekInfo.firstDay">
-            <li v-for="{isWeekend, long, short} in weekDays()" :data-weekend="isWeekend" :title="long" v-text="short"/>
-            <li v-for="{text, isWeekend, isToday, weekDay} in days()" :data-today="isToday" :data-week-day="weekDay"
-                :data-weekend="isWeekend" v-text="text"/>
+            <li v-for="{text, weekend, title} in weekDays()" :title="title" :data-weekend="weekend" v-text="text"/>
+            <li v-for="{text, weekend, weekDay} in days()" :data-week-day="weekDay" :data-weekend="weekend" v-text="text"/>
         </ol>
     </div>
 </template>
@@ -67,10 +61,10 @@ const data = {
 
 [data-month]::before
 {
-    content: attr(data-month) "\a0" attr(data-year);
+    content: attr(data-month);
     display: block;
     line-height: 2em;
-    font-size: 3em;
+    font-size: 2em;
     font-weight: normal;
     text-align: center;
 }
@@ -79,16 +73,17 @@ const data = {
 {
     display: grid;
     grid-template-columns: repeat(7, 1fr);
-    grid-template-rows: 2em repeat(6, 5em);
-    grid-gap: 0.25em;
+    grid-template-rows: 2em repeat(6, 6em);
+    grid-gap: 0.2em;
     background: bisque;
-    padding: 0.25em;
+    padding: 0.2em;
     list-style: none;
+    margin: 0 auto;
 }
 
 [data-week-first-day] > *
 {
-    padding: 0.25em;
+    padding: 0.2em;
     background: #fff;
 }
 
@@ -100,14 +95,6 @@ const data = {
 [data-weekend]
 {
     background: beige;
-}
-
-@media screen
-{
-    [data-today]
-    {
-        border: 0.25em solid tomato;
-    }
 }
 
 [data-week-first-day="1"] [data-week-day="1"]:nth-child(8),

@@ -21,28 +21,7 @@ const now = new Date;
 
 const params = new URLSearchParams(location.search);
 const component = params.has('month') ? PlannerMonth : PlannerYear
-const monthProps = params.has('month') ? {month: now} : {}
-document.body.classList.toggle('month', params.has('month'))
-document.styleSheets.item(0).media.mediaText
-for (var css of document.styleSheets)
-{
-    if (css instanceof CSSStyleSheet)
-    {
-        for (var maybeMediaRule of css.cssRules)
-        {
-            if (maybeMediaRule instanceof CSSMediaRule && new Set(maybeMediaRule.media).has("print"))
-            {
-                for (var maybePageRule of maybeMediaRule.cssRules)
-                {
-                    if (maybePageRule instanceof CSSPageRule)
-                    {
-                        // maybePageRule.style.setProperty("size", params.has("month") ? "landscape" : "portrait")
-                    }
-                }
-            }
-        }
-    }
-}
+const props = params.has('month') ? {month: now} : {year: now}
 
-createApp(component, {locale, now, year: now, ...monthProps}).mount('#app')
+createApp(component, {locale, ...props}).mount('body')
 
