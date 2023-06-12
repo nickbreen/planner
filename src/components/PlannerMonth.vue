@@ -47,10 +47,8 @@ function* days()
 <template>
     <div :data-month="month.toLocaleDateString(locale, {year: 'numeric', month: 'long'})">
         <ol :data-week-first-day="weekInfo.firstDay">
-            <li v-for="({text, weekend, title}, i) in weekDays()" :key="i" :title="title" :data-weekend="weekend"
-                v-text="text"/>
-            <li v-for="({text, weekend, weekDay}, i) in days()" :key="i" :data-week-day="weekDay"
-                :data-weekend="weekend" v-text="text"/>
+            <li v-for="({text, weekend, title}, i) in weekDays()" :key="i" :title="title" :data-weekend="weekend" v-text="text"/>
+            <li v-for="({text, weekend, weekDay}, i) in days()" :key="i" :data-week-day="weekDay" :data-weekend="weekend" v-text="text"/>
         </ol>
     </div>
 </template>

@@ -13,7 +13,10 @@ const locale = new Intl.Locale(navigator.language, {calendar: "gregory"})
 // Polyfill for Firefox https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getWeekInfo#browser_compatibility
 if (!Intl.Locale.prototype.getWeekInfo)
 {
-    Intl.Locale.prototype.getWeekInfo = ()=> (locale.weekInfo || {firstDay: 1, weekend: [6, 7], minimalDays: 1})
+    Intl.Locale.prototype.getWeekInfo = function ()
+    {
+        return this.weekInfo || {firstDay: 1, weekend: [6, 7], minimalDays: 1}
+    }
 }
 
 const year = new Date;
