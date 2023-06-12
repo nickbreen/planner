@@ -9,7 +9,7 @@ Date.prototype.getWeekDay = function ()
     return d === 0 ? 7 : d
 }
 
-const locale = new Intl.Locale(window.navigator.language, {calendar: "gregory"})
+const locale = new Intl.Locale(navigator.language, {calendar: "gregory"})
 
 // Polyfill for Firefox https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Intl/Locale/getWeekInfo#browser_compatibility
 if (!Intl.Locale.prototype.getWeekInfo)
