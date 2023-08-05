@@ -1,4 +1,4 @@
-import {createApp, ref} from 'vue'
+import {createApp} from 'vue'
 import './style.css'
 import PlannerYear from './components/PlannerYear.vue'
 
