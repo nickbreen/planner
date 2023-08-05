@@ -19,4 +19,4 @@ if (!Intl.Locale.prototype.getWeekInfo)
     }
 }
 
-createApp(PlannerYear, {locale}).mount('#app')
+createApp(PlannerYear, {locale}).mount('body')
