@@ -1,4 +1,4 @@
-import {createApp} from 'vue'
+import {createApp, ref} from 'vue'
 import './style.css'
 import PlannerYear from './components/PlannerYear.vue'
 
@@ -19,6 +19,4 @@ if (!Intl.Locale.prototype.getWeekInfo)
     }
 }
 
-const year = new Date;
-
-createApp(PlannerYear, {locale, year}).mount('body')
+createApp(PlannerYear, {locale}).mount('#app')
